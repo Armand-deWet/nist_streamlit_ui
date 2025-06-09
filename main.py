@@ -79,6 +79,8 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
+
+
 cpe_df = pd.read_csv('utils/cpe_df_csv_zip.zip', compression='zip')
 product_titles = cpe_df['title'].unique()
 
@@ -182,10 +184,34 @@ if query:
 
                 st.write('Vulnerability metric name: ', selected_metric)
 
-                # metric = cve_metrics_dict[selected_cve_id][selected_metric][0]
                 st.header('Vulnerability Metric', selected_metric)
-                # st.table(metric['cvssData'])
+                # if selected_metric == 'cvssMetricV2':
+                if 'V2' in selected_metric:
+                    summary_data = [{
+                        'baseScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['cvssData']['baseScore'],
+                        'baseSeverity': cve_metrics_dict[selected_cve_id][selected_metric][0]['baseSeverity'],
+                        'exploitabilityScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['exploitabilityScore'],
+                        'impactScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['impactScore']
+                    }]
 
+                    summary_df = pd.DataFrame(summary_data)
+
+                    st.subheader(f"{selected_metric} Summary Table")
+                    st.dataframe(summary_df, hide_index=True)
+                elif 'V3' in selected_metric:
+                    summary_data = [{
+                        'baseScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['cvssData']['baseScore'],
+                        'baseSeverity': cve_metrics_dict[selected_cve_id][selected_metric][0]['cvssData']['baseSeverity'],
+                        'exploitabilityScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['exploitabilityScore'],
+                        'impactScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['impactScore']
+                    }]
+
+                    summary_df = pd.DataFrame(summary_data)
+
+                    st.subheader(f"{selected_metric} Summary Table")
+                    st.dataframe(summary_df, hide_index=True)
+                
+                st.subheader("Complete Information")
                 st.json(cve_metrics_dict[selected_cve_id][selected_metric])
     else:
          st.write("No product matches your search string. Please search for a different product title...")        
@@ -193,3 +219,5 @@ if query:
 
 else:
     st.info("Type something to begin searching.")
+
+
