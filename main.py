@@ -112,7 +112,7 @@ if query:
 
                 st.json(cve_metrics_dict[selected_cve_id][selected_metric])
     else:
-         st.write("No product mach your search string. Please search for a different product title")        
+         st.write("No product mach your search string. Please search for a different product title...")        
 
 
 else:
