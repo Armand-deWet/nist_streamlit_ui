@@ -2,6 +2,82 @@ import streamlit as st
 import pandas as pd
 import requests
 import zipfile
+from PIL import Image
+import base64
+from io import BytesIO
+
+# Custom CSS using colors from the palette
+st.markdown("""
+    <style>
+    body {
+        background-color: #BEC9CD;
+        color: #1C1C1C;
+    }
+
+    .block-container {
+        padding: 2rem;
+        background-color: #FFFFFF;
+        border-radius: 10px;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, li {
+        color: #1C1C1C;
+    }
+
+    .stButton>button {
+        background-color: #147C9B;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+    }
+
+    .stButton>button:hover {
+        background-color: #216882;
+        color: white;
+    }
+
+    /* Selectbox */
+    [data-testid="stSelectbox"] {
+        background-color: #71BCCD;
+        color: #1C1C1C;
+        border-radius: 8px;
+    }
+
+    /* Input box */
+    input {
+        background-color: #FFFFFF !important;
+        color: #1C1C1C !important;
+    }
+
+    /* Sliders */
+    [data-testid="stSlider"] > div {
+        background-color: #147C9B !important;
+    }
+
+    .custom-box {
+        background-color: #71BCCD;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Load logo
+img = Image.open("ThreatInSight Logo - Color (002).png")
+buffered = BytesIO()
+img.save(buffered, format="PNG")
+img_b64 = base64.b64encode(buffered.getvalue()).decode()
+
+# Inject centered logo with HTML
+st.markdown(f"""
+    <div style="display: flex; justify-content: center; align-items: center; padding: 1rem;">
+        <img src="data:image/png;base64,{img_b64}" width="350"/>
+    </div>
+""", unsafe_allow_html=True)
 
 cpe_df = pd.read_csv('utils/cpe_df_csv_zip.zip', compression='zip')
 product_titles = cpe_df['title'].unique()
@@ -112,7 +188,7 @@ if query:
 
                 st.json(cve_metrics_dict[selected_cve_id][selected_metric])
     else:
-         st.write("No product mach your search string. Please search for a different product title...")        
+         st.write("No product matches your search string. Please search for a different product title...")        
 
 
 else:
