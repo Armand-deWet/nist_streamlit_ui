@@ -185,7 +185,6 @@ if query:
                 st.write('Vulnerability metric name: ', selected_metric)
 
                 st.header('Vulnerability Metric', selected_metric)
-                # if selected_metric == 'cvssMetricV2':
                 if 'V2' in selected_metric:
                     summary_data = [{
                         'baseScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['cvssData']['baseScore'],
@@ -194,10 +193,23 @@ if query:
                         'impactScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['impactScore']
                     }]
 
-                    summary_df = pd.DataFrame(summary_data)
+                    table_html = """
+                    <table style="width:100%; border-collapse: collapse; text-align: center; background-color: #FFFFFF;">
+                        <tr style="background-color: #71BCCD; color: white;">
+                            {} 
+                        </tr>
+                        <tr>
+                            {} 
+                        </tr>
+                    </table>
+                    """.format(
+                        ''.join([f"<th style='border: 1px solid #BEC9CD; padding: 10px;'>{k}</th>" for k in summary_data[0].keys()]),
+                        ''.join([f"<td style='border: 1px solid #BEC9CD; padding: 10px; color: #1C1C1C;'>{v}</td>" for v in summary_data[0].values()])
+                    )
 
                     st.subheader(f"{selected_metric} Summary Table")
-                    st.dataframe(summary_df, hide_index=True)
+                    st.markdown(table_html, unsafe_allow_html=True)
+
                 elif 'V3' in selected_metric:
                     summary_data = [{
                         'baseScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['cvssData']['baseScore'],
@@ -206,10 +218,22 @@ if query:
                         'impactScore': cve_metrics_dict[selected_cve_id][selected_metric][0]['impactScore']
                     }]
 
-                    summary_df = pd.DataFrame(summary_data)
+                    table_html = """
+                    <table style="width:100%; border-collapse: collapse; text-align: center; background-color: #FFFFFF;">
+                        <tr style="background-color: #71BCCD; color: white;">
+                            {} 
+                        </tr>
+                        <tr>
+                            {} 
+                        </tr>
+                    </table>
+                    """.format(
+                        ''.join([f"<th style='border: 1px solid #BEC9CD; padding: 10px;'>{k}</th>" for k in summary_data[0].keys()]),
+                        ''.join([f"<td style='border: 1px solid #BEC9CD; padding: 10px; color: #1C1C1C;'>{v}</td>" for v in summary_data[0].values()])
+                    )
 
                     st.subheader(f"{selected_metric} Summary Table")
-                    st.dataframe(summary_df, hide_index=True)
+                    st.markdown(table_html, unsafe_allow_html=True)
                 
                 st.subheader("Complete Information")
                 st.json(cve_metrics_dict[selected_cve_id][selected_metric])
