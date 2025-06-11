@@ -7,25 +7,104 @@ import base64
 from io import BytesIO
 
 # Custom CSS using colors from the palette
+# st.markdown("""
+#     <style>
+#     body {
+#         background-color: #BEC9CD;
+#         color: #1C1C1C;
+#     }
+
+#     .block-container {
+#         padding: 2rem;
+#         background-color: #FFFFFF;
+#         border-radius: 10px;
+#     }
+
+#     h1, h2, h3, h4, h5, h6, p, li {
+#         color: #1C1C1C;
+#     }
+
+#     .stButton>button {
+#         background-color: #147C9B;
+#         color: white;
+#         border: none;
+#         border-radius: 8px;
+#         padding: 0.5rem 1rem;
+#         font-weight: bold;
+#     }
+
+#     .stButton>button:hover {
+#         background-color: #216882;
+#         color: white;
+#     }
+
+#     /* Selectbox */
+#     [data-testid="stSelectbox"] {
+#         background-color: #71BCCD;
+#         color: #1C1C1C;
+#         border-radius: 8px;
+#     }
+
+#     /* Input box */
+#     input {
+#         background-color: #FFFFFF !important;
+#         color: #1C1C1C !important;
+#     }
+
+#     /* Sliders */
+#     [data-testid="stSlider"] > div {
+#         background-color: #147C9B !important;
+#     }
+
+#     .custom-box {
+#         background-color: #71BCCD;
+#         padding: 20px;
+#         border-radius: 12px;
+#         margin-bottom: 20px;
+#         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+#     }
+            
+#     html, body {
+#     background-color: #000000 !important;  /* Entire page background */
+#     color: #FFFFFF;
+#     }
+
+#     /* Also target the main app container */
+#     section.main {
+#         background-color: #000000 !important;
+#     }
+
+#     /* Optional: make the content container dark to match */
+#     .block-container {
+#         background-color: #1A1A1A !important;  /* Dark inner container */
+#         color: #FFFFFF;
+#     }
+#     </style>
+# """, unsafe_allow_html=True)
+
 st.markdown("""
     <style>
-    body {
-        background-color: #BEC9CD;
-        color: #1C1C1C;
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+    }
+
+    section.main {
+        background-color: #000000 !important;
     }
 
     .block-container {
-        padding: 2rem;
-        background-color: #FFFFFF;
+        background-color: #1A1A1A !important;
         border-radius: 10px;
+        padding: 2rem;
     }
 
-    h1, h2, h3, h4, h5, h6, p, li {
-        color: #1C1C1C;
+    h1, h2, h3, h4, h5, h6, p, li, span, div {
+        color: #FFFFFF !important;
     }
 
     .stButton>button {
-        background-color: #147C9B;
+        background-color: #333333;
         color: white;
         border: none;
         border-radius: 8px;
@@ -34,37 +113,90 @@ st.markdown("""
     }
 
     .stButton>button:hover {
-        background-color: #216882;
+        background-color: #555555;
         color: white;
     }
 
-    /* Selectbox */
     [data-testid="stSelectbox"] {
-        background-color: #71BCCD;
-        color: #1C1C1C;
+        background-color: #333333 !important;
+        color: white !important;
         border-radius: 8px;
     }
 
-    /* Input box */
     input {
-        background-color: #FFFFFF !important;
-        color: #1C1C1C !important;
+        background-color: #222222 !important;
+        color: white !important;
     }
 
-    /* Sliders */
     [data-testid="stSlider"] > div {
-        background-color: #147C9B !important;
+        background-color: #333333 !important;
     }
 
     .custom-box {
-        background-color: #71BCCD;
+        background-color: #222222 !important;
         padding: 20px;
         border-radius: 12px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 6px rgba(255,255,255,0.1);
     }
+
+    table {
+        background-color: #1A1A1A !important;
+        color: #FFFFFF !important;
+    }
+
+    th, td {
+        border: 1px solid #444 !important;
+        padding: 10px !important;
+    }
+            
+    /* JSON display theme fix */
+    /* Override JSON display container */
+    [data-testid="stJson"] {
+        background-color: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Remove light card background around JSON block */
+    [data-testid="stJson"] > div {
+        background-color: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Set dark background for JSON content */
+    [data-testid="stJson"] pre {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        padding: 1rem !important;
+        margin: 0 !important;
+        overflow: auto;
+        font-size: 14px;
+    }
+
+    /* Optional: style JSON keys and values for clarity */
+    [data-testid="stJson"] span {
+        color: #CCCCCC !important; /* light gray for keys and structure */
+    }
+
+    [data-testid="stJson"] span.str {
+        color: #00FF00 !important; /* green for strings */
+    }
+
+    [data-testid="stJson"] span.num {
+        color: #FFD700 !important; /* gold for numbers */
+    }
+
+    [data-testid="stJson"] span.bool {
+        color: #FF69B4 !important; /* pink for booleans */
+    }
+
     </style>
 """, unsafe_allow_html=True)
+
 
 # Load logo
 img = Image.open("ThreatInSight Logo - Color (002).png")
@@ -204,7 +336,7 @@ if query:
                     </table>
                     """.format(
                         ''.join([f"<th style='border: 1px solid #BEC9CD; padding: 10px;'>{k}</th>" for k in summary_data[0].keys()]),
-                        ''.join([f"<td style='border: 1px solid #BEC9CD; padding: 10px; color: #1C1C1C;'>{v}</td>" for v in summary_data[0].values()])
+                        ''.join([f"<td style='border: 1px solid #BEC9CD; padding: 10px; color: white;'>{v}</td>" for v in summary_data[0].values()])
                     )
 
                     st.subheader(f"{selected_metric} Summary Table")
@@ -219,7 +351,7 @@ if query:
                     }]
 
                     table_html = """
-                    <table style="width:100%; border-collapse: collapse; text-align: center; background-color: #FFFFFF;">
+                    <table style="width:100%; border-collapse: collapse; text-align: center; background-color: #1A1A1A;">
                         <tr style="background-color: #71BCCD; color: white;">
                             {} 
                         </tr>
@@ -229,7 +361,7 @@ if query:
                     </table>
                     """.format(
                         ''.join([f"<th style='border: 1px solid #BEC9CD; padding: 10px;'>{k}</th>" for k in summary_data[0].keys()]),
-                        ''.join([f"<td style='border: 1px solid #BEC9CD; padding: 10px; color: #1C1C1C;'>{v}</td>" for v in summary_data[0].values()])
+                        ''.join([f"<td style='border: 1px solid #444; padding: 10px; color: #FFFFFF;'>{v}</td>" for v in summary_data[0].values()])
                     )
 
                     st.subheader(f"{selected_metric} Summary Table")
